@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Eyes On The Cattle</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../static/adminResourses/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../static/adminResourses/images/logo_1.png"/>
+</head>
+
+<body class="sidebar-light">
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    {% include 'admin/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_settings-panel.html -->
+        <div class="theme-setting-wrapper">
+            <div id="settings-trigger"><i class="mdi mdi-settings"></i></div>
+            <div id="theme-settings" class="settings-panel">
+                <i class="settings-close mdi mdi-close"></i>
+                <p class="settings-heading">SIDEBAR SKINS</p>
+                <div class="sidebar-bg-options" id="sidebar-light-theme">
+                    <div class="img-ss rounded-circle bg-light border mr-3"></div>
+                    Light
+                </div>
+                <div class="sidebar-bg-options selected" id="sidebar-dark-theme">
+                    <div class="img-ss rounded-circle bg-dark border mr-3"></div>
+                    Dark
+                </div>
+                <p class="settings-heading mt-2">HEADER SKINS</p>
+                <div class="color-tiles mx-0 px-4">
+                    <div class="tiles success"></div>
+                    <div class="tiles warning"></div>
+                    <div class="tiles danger"></div>
+                    <div class="tiles light"></div>
+                    <div class="tiles info"></div>
+                    <div class="tiles dark"></div>
+                    <div class="tiles default"></div>
+                </div>
+            </div>
+        </div>
+        <!-- partial -->
+        <!-- partial:../../partials/_sidebar.html -->
+        {% include 'admin/menu.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Data table</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <div id="order-listing_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="row">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table id="order-listing" class="table dataTable no-footer" role="grid"
+                                                       aria-describedby="order-listing_info">
+                                                    <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0"
+                                                            aria-controls="order-listing" rowspan="1" colspan="1"
+                                                            aria-sort="ascending"
+                                                            aria-label="Order #: activate to sort column descending"
+                                                            style="width: 79.2px;">Order #
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Purchased On: activate to sort column ascending"
+                                                            style="width: 138.188px;">Purchased On
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Customer: activate to sort column ascending"
+                                                            style="width: 99.875px;">Customer
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Ship to: activate to sort column ascending"
+                                                            style="width: 74.525px;">Ship to
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Base Price: activate to sort column ascending"
+                                                            style="width: 108.15px;">Base Price
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Purchased Price: activate to sort column ascending"
+                                                            style="width: 159.575px;">Purchased Price
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Status: activate to sort column ascending"
+                                                            style="width: 74.9375px;">Status
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="order-listing"
+                                                            rowspan="1" colspan="1"
+                                                            aria-label="Actions: activate to sort column ascending"
+                                                            style="width: 80.75px;">Actions
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">1</td>
+                                                        <td>2012/08/03</td>
+                                                        <td>Edinburgh</td>
+                                                        <td>New York</td>
+                                                        <td>$1500</td>
+                                                        <td>$3200</td>
+                                                        <td>
+                                                            <label class="badge badge-info">On hold</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">2</td>
+                                                        <td>2015/04/01</td>
+                                                        <td>Doe</td>
+                                                        <td>Brazil</td>
+                                                        <td>$4500</td>
+                                                        <td>$7500</td>
+                                                        <td>
+                                                            <label class="badge badge-danger">Pending</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">3</td>
+                                                        <td>2010/11/21</td>
+                                                        <td>Sam</td>
+                                                        <td>Tokyo</td>
+                                                        <td>$2100</td>
+                                                        <td>$6300</td>
+                                                        <td>
+                                                            <label class="badge badge-success">Closed</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">4</td>
+                                                        <td>2016/01/12</td>
+                                                        <td>Sam</td>
+                                                        <td>Tokyo</td>
+                                                        <td>$2100</td>
+                                                        <td>$6300</td>
+                                                        <td>
+                                                            <label class="badge badge-success">Closed</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">5</td>
+                                                        <td>2017/12/28</td>
+                                                        <td>Sam</td>
+                                                        <td>Tokyo</td>
+                                                        <td>$2100</td>
+                                                        <td>$6300</td>
+                                                        <td>
+                                                            <label class="badge badge-success">Closed</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">6</td>
+                                                        <td>2000/10/30</td>
+                                                        <td>Sam</td>
+                                                        <td>Tokyo</td>
+                                                        <td>$2100</td>
+                                                        <td>$6300</td>
+                                                        <td>
+                                                            <label class="badge badge-info">On-hold</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">7</td>
+                                                        <td>2011/03/11</td>
+                                                        <td>Cris</td>
+                                                        <td>Tokyo</td>
+                                                        <td>$2100</td>
+                                                        <td>$6300</td>
+                                                        <td>
+                                                            <label class="badge badge-success">Closed</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">8</td>
+                                                        <td>2015/06/25</td>
+                                                        <td>Tim</td>
+                                                        <td>Italy</td>
+                                                        <td>$6300</td>
+                                                        <td>$2100</td>
+                                                        <td>
+                                                            <label class="badge badge-info">On-hold</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">9</td>
+                                                        <td>2016/11/12</td>
+                                                        <td>John</td>
+                                                        <td>Tokyo</td>
+                                                        <td>$2100</td>
+                                                        <td>$6300</td>
+                                                        <td>
+                                                            <label class="badge badge-success">Closed</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">10</td>
+                                                        <td>2003/12/26</td>
+                                                        <td>Tom</td>
+                                                        <td>Germany</td>
+                                                        <td>$1100</td>
+                                                        <td>$2300</td>
+                                                        <td>
+                                                            <label class="badge badge-danger">Pending</label>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-outline-primary">View</button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-5">
+
+                                            </div>
+                                            <div class="col-sm-12 col-md-7">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include 'admin/footer.html' %}
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- base:js -->
+<script src="../../static/adminResourses/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="../../static/adminResourses/js/off-canvas.js"></script>
+<script src="../../static/adminResourses/js/hoverable-collapse.js"></script>
+<script src="../../static/adminResourses/js/template.js"></script>
+<script src="../../static/adminResourses/js/settings.js"></script>
+<script src="../../static/adminResourses/js/todolist.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="../../static/adminResourses/js/jquery.dataTables.js"></script>
+<script src="../../static/adminResourses/js/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../static/adminResourses/js/data-table.js"></script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

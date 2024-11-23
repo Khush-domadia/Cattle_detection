@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Eyes On The Cattle</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../static/adminResourses/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../static/adminResourses/images/logo_1.png"/>
+
+    <script type="text/javascript">
+
+        function loadWardCamera() {
+            var cameraZoneId = document.getElementById("cameraZoneId");
+            var cameraWardId = document.getElementById("cameraWardId");
+
+            cameraWardId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].ward_id;
+                        option.text = json[i].ward_name;
+                        cameraWardId.options.add(option);
+                    }
+                }
+            };
+
+            ajax.open("get", "/admin/ajax_ward_camera?cameraZoneId=" + cameraZoneId.value, true);
+            ajax.send();
+        }
+
+        function loadAreaCamera() {
+            var cameraWardId = document.getElementById("cameraWardId");
+            var cameraAreaId = document.getElementById("cameraAreaId");
+
+            cameraAreaId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].area_id;
+                        option.text = json[i].area_name;
+                        cameraAreaId.options.add(option);
+                    }
+                }
+            };
+            ajax.open("get", "/admin/ajax_area_camera?cameraWardId=" + cameraWardId.value, true);
+            ajax.send();
+        }
+
+    </script>
+
+
+</head>
+
+<body class="sidebar-light">
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    {% include 'admin/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+
+        {% include 'admin/menu.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row grid-margin">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header" style="background: linear-gradient(90deg, #c4c4c4, transparent);">
+                                <h4 class="card-title m-0">Add Camera</h4>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST"
+                                      action="/admin/insert_camera"
+                                      id="cameraForm"
+                                      enctype="multipart/form-data">
+
+                                    <div class="row">
+                                        <div class="form-group col-lg-4">
+                                            <label> Zone Name:</label>
+                                            <select id="cameraZoneId"
+                                                    name="cameraZoneId"
+                                                    required
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px"
+                                                    onchange="loadWardCamera()">
+                                                <option name="select Zone"
+                                                        value="none" selected
+                                                        disabled>Select Zone
+                                                </option>
+                                                {% for i in zone_vo_list %}
+                                                    <option value="{{ i['zone_id'] }}">{{ i["zone_name"] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        <span id="cameraZoneError"
+                                              style="color: red;"></span>
+                                        </div>
+
+
+                                        <div class="form-group col-lg-4">
+                                            <label> Ward Name:</label>
+                                            <select id="cameraWardId"
+                                                    name="cameraWardId"
+                                                    required
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px"
+                                                    onchange="loadAreaCamera()">
+                                                <option name="select Ward"
+                                                        value="none" selected
+                                                        disabled>Select Ward
+                                                </option>
+                                                {% for i in ward_vo_list %}
+                                                    <option value="{{ i['ward_id'] }}">{{ i['ward_name'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        <span id="cameraWardError"
+                                              style="color: red;"></span>
+                                        </div>
+
+                                        <div class="form-group col-lg-4">
+                                            <label for="Area Name"> Area
+                                                Name:</label>
+                                            <select id="cameraAreaId"
+                                                    name="cameraAreaId"
+                                                    required
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px">
+                                                <option name="select Area"
+                                                        value="none" selected
+                                                        disabled>Select Area
+                                                </option>
+                                            </select>
+                                            <span id="cameraAreaError"
+                                              style="color: red;"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Camera Name</label>
+                                        <input class="form-control"
+                                               id="cameraNameInput"
+                                               name="cameraName" type="text"
+                                        onkeypress='return event.charCode>=65 && event.charCode<=90 || event.charCode>=97 && event.charCode<=122'>
+                                        <span id="cameraNameError"
+                                              style="color: red;"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Camera code</label>
+                                        <input class="form-control"
+                                               id="cameraCodeInput"
+                                               name="cameraCode" type="text"
+                                        onkeypress='return event.charCode>=48 && event.charCode<=57'>
+                                        <span id="cameraCodeError"
+                                              style="color: red;"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Camera Link</label>
+                                        <input class="form-control"
+                                               id="cameraLinkInput"
+                                               name="cameraLink" type="text">
+                                        <span id="cameraLinkError"
+                                              style="color: red;"></span>
+                                    </div>
+                                    <input class="btn btn-primary"
+                                           type="submit" value="Add">
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include 'admin/footer.html' %}
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- base:js -->
+<script src="../../static/adminResourses/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="../../static/adminResourses/js/off-canvas.js"></script>
+<script src="../../static/adminResourses/js/hoverable-collapse.js"></script>
+<script src="../../static/adminResourses/js/template.js"></script>
+<script src="../../static/adminResourses/js/settings.js"></script>
+<script src="../../static/adminResourses/js/todolist.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="../../static/adminResourses/js/jquery.validate.min.js"></script>
+<script src="../../static/adminResourses/js/bootstrap-maxlength.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../static/adminResourses/js/form-validation.js"></script>
+<script src="../../static/adminResourses/js/bt-maxLength.js"></script>
+<script>
+    // Form validation using JavaScript
+    document.getElementById("cameraForm").addEventListener("submit", function(event) {
+        var zoneId = document.getElementsByName("cameraZoneId")[0].value;
+        var wardId = document.getElementsByName("cameraWardId")[0].value;
+        var areaId = document.getElementsByName("cameraAreaId")[0].value;
+        var cameraName = document.getElementById("cameraNameInput").value;
+        var cameraCode = document.getElementById("cameraCodeInput").value;
+        var cameraLink = document.getElementById("cameraLinkInput").value;
+
+        var isValid = true;
+
+        // Validate Zone Selection
+        if (zoneId === "none") {
+            document.getElementById("cameraZoneError").innerText = "Please select a zone";
+            isValid = false;
+        } else {
+            document.getElementById("cameraZoneError").innerText = "";
+            // Validate Ward Selection only if a Zone has been selected
+            if (wardId === "none") {
+                document.getElementById("cameraWardError").innerText = "Please select a ward";
+                isValid = false;
+            } else {
+                document.getElementById("cameraWardError").innerText = "";
+                // Validate Area Selection only if a Ward has been selected
+                if (areaId === "none") {
+                    document.getElementById("cameraAreaError").innerText = "Please select an area";
+                    isValid = false;
+                } else {
+                    document.getElementById("cameraAreaError").innerText = "";
+                }
+            }
+        }
+
+        // Validate Camera Name
+        if (cameraName.trim() === "") {
+            document.getElementById("cameraNameError").innerText = "Camera Name cannot be empty";
+            isValid = false;
+        } else {
+            document.getElementById("cameraNameError").innerText = "";
+        }
+
+        // Validate Camera Code
+        if (cameraCode.trim() === "") {
+            document.getElementById("cameraCodeError").innerText = "Camera Code cannot be empty";
+            isValid = false;
+        } else {
+            document.getElementById("cameraCodeError").innerText = "";
+        }
+
+        // Validate Camera Link
+        if (cameraLink.trim() === "") {
+            document.getElementById("cameraLinkError").innerText = "Camera Link cannot be empty";
+            isValid = false;
+        } else {
+            document.getElementById("cameraLinkError").innerText = "";
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+
+<!-- End custom js for this page-->
+</body>
+
+</html>

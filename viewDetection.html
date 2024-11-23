@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Eyes On The Cattle</title>
+    <!-- base:css -->
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/materialdesignicons.min.css">
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon"
+          href="../../static/adminResourses/images/logo_1.png"/>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .video-container video {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .video-container video:hover {
+            opacity: 0.7;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 200px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (video) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 110px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Video Width on Smaller Screens */
+        @media only screen and (max-width: 700px) {
+            .modal-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="sidebar-light">
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    {% include 'admin/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        {% include 'admin/menu.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row grid-margin">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header  d-flex
+                            justify-content-between align-items-center"
+                                 style="background: linear-gradient(90deg, #c4c4c4, transparent);">
+                                <h4 class="card-title m-0">Detection
+                                    Details</h4>
+                                <a href="/load_detection">
+                                    <button class="btn
+                                btn-outline-primary btn-sm">Add
+                                        Detection
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table id="order-listing"
+                                                   class="table dataTable no-footer"
+                                                   role="grid"
+                                                   aria-describedby="order-listing_info">
+                                                <thead>
+                                                <tr role="row">
+                                                    <th>Zone name</th>
+                                                    <th>Ward name</th>
+                                                    <th>Area name</th>
+                                                    <th>Camera Name</th>
+                                                    <th>Input Data</th>
+                                                    <th>Output Data</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for row in detection_vo_list %}
+                                                    <tr>
+                                                        <td>{{ row[0]['zone_name'] }}</td>
+                                                        <td>{{ row[1]['ward_name'] }}</td>
+                                                        <td>{{ row[2]['area_name'] }}</td>
+                                                        <td>{{ row[3]['camera_name'] }}</td>
+                                                        <td>
+                                                            <div class="video-poster"
+                                                                 style="cursor: pointer;">
+                                                                <img src="../../static/adminResourses/images/playIcon.jpg" style="border-radius: 0;width: 50px">
+                                                            </div>
+                                                            <div class="video-container" hidden="hidden">
+                                                                <video class="myVideo" width="50%" height="100px" controls>
+                                                                    <source src="{{ row[4]['input_image_path'] }}{{ row[4]['input_image_name'] }}" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            </div>
+                                                            <!-- The Modal -->
+                                                            <div class="modal">
+                                                                <span class="close">&times;</span>
+                                                                <video class="modal-content"
+                                                                       controls>
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="video-poster" style="cursor: pointer;">
+                                                                <img src="../../static/adminResourses/images/playIcon.jpg" style="border-radius: 0;width: 50px">
+                                                            </div>
+                                                            <div class="video-container" hidden="hidden">
+                                                                <video class="myVideo" width="50%" height="100px" controls>
+                                                                    <source src="{{ row[4]['output_image_path'] }}{{ row[4]['output_image_name'] }}" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            </div>
+                                                            <!-- The Modal -->
+                                                            <div class="modal">
+                                                                <span class="close">&times;</span>
+                                                                <video class="modal-content" controls>
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/admin/delete_detection?detectionId={{ row[4]['detection_id'] }}">
+                                                                <i class="mdi mdi-delete lead text-danger ml-2"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'admin/footer.html' %}
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- base:js -->
+<script src="../../static/adminResourses/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="../../static/adminResourses/js/off-canvas.js"></script>
+<script src="../../static/adminResourses/js/hoverable-collapse.js"></script>
+<script src="../../static/adminResourses/js/template.js"></script>
+<script src="../../static/adminResourses/js/settings.js"></script>
+<script src="../../static/adminResourses/js/todolist.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="../../static/adminResourses/js/jquery.dataTables.js"></script>
+<script src="../../static/adminResourses/js/dataTables.bootstrap4.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../static/adminResourses/js/data-table.js"></script>
+<!-- End custom js for this page-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var posterImages = document.querySelectorAll(".video-poster");
+        var modals = document.querySelectorAll(".modal");
+        var closeModalButtons = document.querySelectorAll(".close");
+
+        posterImages.forEach(function (poster, index) {
+            poster.onclick = function () {
+                modals[index].style.display = 'block';
+                modals[index].querySelector(".modal-content").src = poster.nextElementSibling.querySelector('source').src;
+            }
+        });
+
+        closeModalButtons.forEach(function (button) {
+            button.onclick = function () {
+                button.parentElement.style.display = 'none';
+            }
+        });
+
+        window.onclick = function (event) {
+            modals.forEach(function (modal) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

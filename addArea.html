@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Eyes On The Cattle</title>
+    <!-- base:css -->
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/materialdesignicons.min.css">
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon"
+          href="../../static/adminResourses/images/logo_1.png"/>
+    <script type="text/javascript">
+
+        function loadWardArea() {
+            var areaZoneId = document.getElementById("areaZoneId");
+            var areaWardId = document.getElementById("areaWardId");
+
+            areaWardId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].ward_id;
+                        option.text = json[i].ward_name;
+                        areaWardId.options.add(option);
+                    }
+                }
+            };
+            ajax.open("get", "/admin/ajax_ward_area?areaZoneId=" + areaZoneId.value, true);
+            ajax.send();
+        }
+
+    </script>
+
+</head>
+
+<body class="sidebar-light">
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    {% include 'admin/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+
+        <!-- partial:../../partials/_sidebar.html -->
+        {% include 'admin/menu.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row grid-margin">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header" style="background: linear-gradient(90deg, #c4c4c4, transparent);">
+                                <h4 class="card-title m-0"> Add Area </h4>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST"
+                                      action="/admin/insert_area"
+                                      id="areaForm"
+                                      enctype="multipart/form-data" >
+
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label> Zone Name:</label>
+                                            <select id="areaZoneId"
+                                                    name="areaZoneId" required
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px"
+                                                    onchange="loadWardArea()">
+                                                <option name="select zone"
+                                                        value="none" selected
+                                                        disabled>Select Zone
+                                                </option>
+                                                {% for i in zone_vo_list %}
+                                                    <option value="{{ i['zone_id'] }}">{{ i["zone_name"] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        <span id="areaZoneError" style="color:
+                                        red;"></span>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label> Ward Name:</label>
+                                            <select id="areaWardId"
+                                                    name="areaWardId"
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px">
+                                                <option name="select ward"
+                                                        value="none" selected
+                                                        disabled>Select Ward
+                                                </option>
+                                            </select>
+                                            <span id="areaWardError"
+                                                  style="color:
+                                        red;"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>
+                                            Area Name
+                                        </label>
+                                        <input class="form-control" id="areaNameInput"
+                                               name="areaName" type="text"
+                                        onkeypress='return event.charCode>=65 && event.charCode<=90 || event.charCode>=97 && event.charCode<=122'>
+                                        <span id="areaNameError" style="color:
+                                        red;"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Area Code</label>
+                                        <input class="form-control" id="areaCodeInput"
+                                               name="areaCode" type="text"
+                                        onkeypress='return event.charCode>=48 && event.charCode<=57'>
+                                        <span id="areaCodeError" style="color:
+                                        red;"></span>
+                                    </div>
+                                    <input class="btn btn-primary" type="submit" value="Add" id="submitButton">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include 'admin/footer.html' %}
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- base:js -->
+<script src="../../static/adminResourses/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="../../static/adminResourses/js/off-canvas.js"></script>
+<script src="../../static/adminResourses/js/hoverable-collapse.js"></script>
+<script src="../../static/adminResourses/js/template.js"></script>
+<script src="../../static/adminResourses/js/settings.js"></script>
+<script src="../../static/adminResourses/js/todolist.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="../../static/adminResourses/js/jquery.validate.min.js"></script>
+<script src="../../static/adminResourses/js/bootstrap-maxlength.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../static/adminResourses/js/form-validation.js"></script>
+<script src="../../static/adminResourses/js/bt-maxLength.js"></script>
+<script>
+    // Form validation using JavaScript
+    document.getElementById("areaForm").addEventListener("submit", function(event) {
+        var zoneId = document.getElementsByName("areaZoneId")[0].value;
+        var wardId = document.getElementsByName("areaWardId")[0].value;
+        var areaName = document.getElementById("areaNameInput").value;
+        var areaCode = document.getElementById("areaCodeInput").value;
+
+        var isValid = true;
+
+        // Validate Zone Selection
+        if (zoneId === "none") {
+            document.getElementById("areaZoneError").innerText = "Please select a zone";
+            isValid = false;
+        } else {
+            document.getElementById("areaZoneError").innerText = "";
+            // Validate Ward Selection only if a Zone has been selected
+            if (wardId === "none") {
+                document.getElementById("areaWardError").innerText = "Please select a ward";
+                isValid = false;
+            } else {
+                document.getElementById("areaWardError").innerText = "";
+            }
+        }
+
+        // Validate Area Name
+        if (areaName.trim() === "") {
+            document.getElementById("areaNameError").innerText = "Area Name cannot be empty";
+            isValid = false;
+        } else {
+            document.getElementById("areaNameError").innerText = "";
+        }
+
+        // Validate Area Code
+        if (areaCode.trim() === "") {
+            document.getElementById("areaCodeError").innerText = "Area Code cannot be empty";
+            isValid = false;
+        } else {
+            document.getElementById("areaCodeError").innerText = "";
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+
+
+
+<!-- End custom js for this page-->
+</body>
+
+</html>

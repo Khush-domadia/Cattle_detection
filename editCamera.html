@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Edit Camera</title>
+    <!-- base:css -->
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/materialdesignicons.min.css">
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon"
+          href="../../static/adminResourses/images/favicon.png"/>
+   <script type="text/javascript">
+
+        function loadWardCamera() {
+            var cameraZoneId = document.getElementById("cameraZoneId");
+            var cameraWardId = document.getElementById("cameraWardId");
+
+            cameraWardId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].ward_id;
+                        option.text = json[i].ward_name;
+                        cameraWardId.options.add(option);
+
+                    }
+                }
+            };
+
+            ajax.open("get", "/admin/ajax_ward_camera?cameraZoneId=" + cameraZoneId.value, true);
+            ajax.send();
+        }
+
+        function loadAreaCamera() {
+            var cameraWardId = document.getElementById("cameraWardId");
+            var cameraAreaId = document.getElementById("cameraAreaId");
+
+            cameraAreaId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].area_id;
+                        option.text = json[i].area_name;
+                        cameraAreaId.options.add(option);
+                    }
+                }
+            };
+            ajax.open("get", "/admin/ajax_area_camera?cameraWardId=" + cameraWardId.value, true);
+            ajax.send();
+
+        }
+
+    </script>
+</head>
+
+<body class="sidebar-light">
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    {% include 'admin/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+
+        <!-- partial:../../partials/_sidebar.html -->
+        {% include 'admin/menu.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row grid-margin">
+                    <div class="col-lg-12">
+                        <div class="card">
+
+                            <div class="card-header bg-gradient-secondary">
+                                <h4 class="card-title m-0"> Edit Camera </h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="/admin/update_camera"
+                                      method="post">
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label>Zone Name</label>
+                                            <select class="form-control form-control-lg"
+                                                    id="cameraZoneId"
+                                                    name="cameraZoneId"
+                                                    onchange="loadWardCamera()"
+                                                    style="height: 46px;
+                                        border-radius:1px; color: black">
+                                                <option value="select one"
+                                                        selected disabled>
+                                                    Select Zone
+                                                </option>
+                                                {% for data in zone_vo_list %}
+                                                    {% if
+                                                    camera_vo_list[0]['camera_zone_id'] == data['zone_id'] %}
+                                                        <option selected="selected"
+                                                                value="{{ data['zone_id'] }}">{{ data['zone_name'] }}</option>
+                                                    {% else %}
+                                                        <option value="{{ data['zone_id'] }}">{{ data['zone_name'] }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label>Ward Name</label>
+                                            <select class="form-control form-control-lg"
+                                                    id="cameraWardId"
+                                                    name="cameraWardId"
+                                                    onchange="loadAreaCamera()"
+                                                    style="height: 46px;
+                                        border-radius:1px; color: black">
+                                                <option value="Select one"
+                                                        selected disabled>
+                                                    Select Ward
+                                                </option>
+                                                {% for data in ward_vo_list %}
+                                                    {% if
+                                                    camera_vo_list[0]['camera_ward_id'] == data['ward_id'] %}
+                                                        <option selected="selected"
+                                                                value="{{
+                                                                        data['ward_id'] }}">{{ data['ward_name'] }}</option>
+                                                    {% else %}
+
+                                                        <option
+                                                                value="{{
+                                                                        data['ward_id'] }}">{{ data['ward_name'] }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group col-4">
+                                            <label>Area Name</label>
+                                            <select class="form-control form-control-lg"
+                                                    id="cameraAreaId"
+                                                    name="cameraAreaId"
+                                                    style="height: 46px;
+                                        border-radius:1px; color: black">
+                                                <option value="Select one"
+                                                        selected disabled>
+                                                    Select Area
+                                                </option>
+                                                {% for data in area_vo_list %}
+                                                    {% if
+                                                    camera_vo_list[0]['camera_area_id'] == data['area_id'] %}
+                                                        <option selected="selected"
+                                                                value="{{
+                                                                        data['area_id'] }}">{{ data['area_name'] }}</option>
+                                                    {% else %}
+                                                        <option
+                                                                value="{{
+                                                                        data['area_id'] }}">{{ data['area_name'] }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <input id="cameraId"
+                                           class="form-control"
+                                           name="cameraId"
+                                           type="hidden"
+                                           value="{{ camera_vo_list[0]['camera_id'] }}">
+
+                                    <div class="form-group">
+                                        <label for="cname">
+                                            camera Name
+                                        </label>
+                                        <input id="cameraName"
+                                               class="form-control"
+                                               name="cameraName"
+                                               type="text"
+                                               value="{{ camera_vo_list[0]['camera_name'] }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ccomment">Camera
+                                            Code</label>
+                                        <input id="cameraCode"
+                                               class="form-control"
+                                               name="cameraCode"
+                                               type="text"
+                                               value="{{ camera_vo_list[0]['camera_code'] }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ccomment">Camera
+                                            Link</label>
+                                        <input id="cameraLink"
+                                               class="form-control"
+                                               name="cameraLink"
+                                               type="text"
+                                               value="{{ camera_vo_list[0]['camera_link'] }}">
+                                    </div>
+                                    <input class="btn btn-primary"
+                                           type="submit"
+                                           value="update">
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+
+
+            {% include 'admin/footer.html' %}
+
+
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- base:js -->
+<script src="../../static/adminResourses/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="../../static/adminResourses/js/off-canvas.js"></script>
+<script src="../../static/adminResourses/js/hoverable-collapse.js"></script>
+<script src="../../static/adminResourses/js/template.js"></script>
+<script src="../../static/adminResourses/js/settings.js"></script>
+<script src="../../static/adminResourses/js/todolist.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="../../static/adminResourses/js/jquery.validate.min.js"></script>
+<script src="../../static/adminResourses/js/bootstrap-maxlength.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../static/adminResourses/js/form-validation.js"></script>
+<script src="../../static/adminResourses/js/bt-maxLength.js"></script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

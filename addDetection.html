@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Eyes On The Cattle</title>
+    <!-- base:css -->
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/materialdesignicons.min.css">
+    <link rel="stylesheet"
+          href="../../static/adminResourses/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/adminResourses/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon"
+          href="../../static/adminResourses/images/logo_1.png"/>
+
+    <script type="text/javascript">
+
+        function loadWardDetection() {
+            var detectionZoneId = document.getElementById("detectionZoneId");
+            var detectionWardId = document.getElementById("detectionWardId");
+
+            detectionWardId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].ward_id;
+                        option.text = json[i].ward_name;
+                        detectionWardId.options.add(option);
+                    }
+                }
+            };
+
+            ajax.open("get", "/admin/ajax_ward_detection?detectionZoneId=" + detectionZoneId.value, true);
+            ajax.send();
+        }
+
+
+        function loadAreaDetection() {
+            var detectionWardId = document.getElementById("detectionWardId");
+            var detectionAreaId = document.getElementById("detectionAreaId");
+
+            detectionAreaId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].area_id;
+                        option.text = json[i].area_name;
+                        detectionAreaId.options.add(option);
+                    }
+                }
+            };
+
+            ajax.open("get", "/admin/ajax_area_detection?detectionWardId=" + detectionWardId.value, true);
+            ajax.send();
+        }
+
+
+        function loadCameraDetection() {
+            var detectionAreaId = document.getElementById("detectionAreaId");
+            var detectionCameraId = document.getElementById("detectionCameraId");
+
+            detectionCameraId.innerHTML = "";
+
+            var ajax = new XMLHttpRequest();
+
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+
+                    var json = JSON.parse(ajax.responseText);
+                    for (var i = 0; i < json.length; i++) {
+
+                        var option = document.createElement("option");
+                        option.value = json[i].camera_id;
+                        option.text = json[i].camera_name;
+                        detectionCameraId.options.add(option);
+                    }
+                }
+            };
+            ajax.open("get", "/admin/ajax_camera_detection?detectionAreaId=" + detectionAreaId.value, true);
+            ajax.send();
+        }
+    </script>
+    
+</head>
+
+<body class="sidebar-light">
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    {% include 'admin/header.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+
+        <!-- partial:../../partials/_sidebar.html -->
+        {% include 'admin/menu.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row grid-margin">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header"
+                                 style="background: linear-gradient(90deg, #c4c4c4, transparent);">
+                                <h4 class="card-title m-0"> Add Detection </h4>
+                            </div>
+                            <div class="card-body">
+                                <form id="detectionForm"
+                                      action="/admin/insert_detection"
+                                      method="POST"
+                                      enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label> Zone Name:</label>
+                                            <select id="detectionZoneId"
+                                                    name="detectionZoneId" required
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px"
+                                                    onchange="loadWardDetection()">
+                                                <option name="select zone"
+                                                        value="none" selected
+                                                        disabled>Select Zone
+                                                </option>
+                                                {% for i in zone_vo_list %}
+                                                    <option value="{{ i['zone_id'] }}">{{ i["zone_name"] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        <span id="detectionZoneError" style="color:
+                                        red;"></span>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label> Ward Name:</label>
+                                            <select id="detectionWardId"
+                                                    name="detectionWardId"
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px"
+                                                    onchange="loadAreaDetection()">
+                                                <option name="select ward"
+                                                        value="none" selected
+                                                        disabled>Select Ward
+                                                </option>
+                                                {% for i in ward_vo_list %}
+                                                    <option value="{{ i['ward_id'] }}">{{ i["ward_name"] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <span id="detectionWardError"
+                                                  style="color:
+                                        red;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label> Area Name:</label>
+                                            <select id="detectionAreaId"
+                                                    name="detectionAreaId" required
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px"
+                                                    onchange="loadCameraDetection()">
+                                                <option name="select Area"
+                                                        value="none" selected
+                                                        disabled>Select Area
+                                                </option>
+                                                {% for i in area_vo_list %}
+                                                    <option value="{{ i['area_id'] }}">{{ i["area_name"] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        <span id="detectionAreaError" style="color:
+                                        red;"></span>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label> Camera Name:</label>
+                                            <select id="detectionCameraId"
+                                                    name="detectionCameraId"
+                                                    class="form-control form-control lg"
+                                                    style="height: 45px">
+                                                <option name="select Camera"
+                                                        value="none" selected
+                                                        disabled>Select Camera
+                                                </option>
+                                            </select>
+                                            <span id="detectionCameraError"
+                                                  style="color:
+                                        red;"></span>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group">
+                                        <label>File upload</label>
+                                        <input type="file" id="inputImage"
+                                               name="inputImage"
+                                               class="file-upload-default">
+                                        <div class="input-group col-xs-12">
+                                            <input type="text"
+                                                   class="form-control file-upload-info"
+                                                   disabled
+                                                   placeholder="Upload Image">
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary"
+                                                        type="button">Upload</button>
+                                            </span>
+                                        </div>
+                                        <span id="fileError"
+                                              style="color: red;"></span>
+                                    </div>
+                                    <input class="btn btn-primary"
+                                           type="submit" value="Add">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include 'admin/footer.html' %}
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- base:js -->
+<script src="../../static/adminResourses/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="../../static/adminResourses/js/off-canvas.js"></script>
+<script src="../../static/adminResourses/js/hoverable-collapse.js"></script>
+<script src="../../static/adminResourses/js/template.js"></script>
+<script src="../../static/adminResourses/js/settings.js"></script>
+<script src="../../static/adminResourses/js/todolist.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="../../static/adminResourses/js/jquery.validate.min.js"></script>
+<script src="../../static/adminResourses/js/bootstrap-maxlength.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../static/adminResourses/js/form-validation.js"></script>
+<script src="../../static/adminResourses/js/bt-maxLength.js"></script>
+<script src="../../static/adminResourses/js/file-upload.js"></script>
+<script>
+    // Form validation using JavaScript
+    document.getElementById("detectionForm").addEventListener("submit", function (event) {
+        var cameraId = document.getElementById("detectionCameraId").value;
+        var fileInput = document.getElementById("inputImage").files[0];
+
+        var isValid = true;
+
+        // Reset error messages
+        document.getElementById("cameraError").innerText = "";
+        document.getElementById("fileError").innerText = "";
+
+        // Validate Camera Selection
+        if (cameraId === "none") {
+            document.getElementById("cameraError").innerText = "Please select a camera";
+            isValid = false;
+        }
+
+        // Validate File Input
+        if (!fileInput) {
+            document.getElementById("fileError").innerText = "Please upload an image file";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+<!-- End custom js for this page-->
+</body>
+
+</html>
